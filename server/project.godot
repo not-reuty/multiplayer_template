@@ -19,6 +19,11 @@ config/name="server"
 run/main_scene="res://server.tscn"
 config/icon="res://icon.png"
 
+[physics]
+
+common/physics_fps=40
+
 [rendering]
 
+environment/default_clear_color=Color( 0.345098, 0.984314, 1, 1 )
 environment/default_environment="res://default_env.tres"
