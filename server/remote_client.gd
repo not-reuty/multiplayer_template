@@ -18,3 +18,5 @@ func initialise(new_color, new_position):
 	rpc_id(id, "initialise", [new_color, new_position])
 	print('rpc call sent')
 	
+func move(new_position):
+	$player.position = new_position

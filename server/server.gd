@@ -3,6 +3,7 @@ extends Node
 var PORT = 600
 var MAX_PLAYERS = 64
 
+var tick_count = 0
 var tickrate = 3
 
 var peer = NetworkedMultiplayerENet.new()
@@ -53,12 +54,17 @@ func _on_restart_button_pressed():
 	get_tree().network_peer.close_connection()
 	_ready()
 
-
-# using Godot's built in physics process as a tickrate
-func _physics_process(delta):
-	print(delta)
-
-
 func _on_tickrate_value_changed(value):
 	print('tickrate changed to ' + str(value))
 	Engine.iterations_per_second = value
+
+remote func receive_data(id, data):
+	print(str(id) + ' ' + str(data))
+	var client = get_node(str(id))
+	client.move(data[0])
+
+# using Godot's built in physics process as a tickrate
+func _physics_process(delta):
+	tick_count += 1
+	var state = delta
+	rpc("sync", tick_count)

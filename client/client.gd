@@ -34,6 +34,7 @@ remote func initialise(args):
 	var this_player = player.instance()
 	this_player.position = args[1]
 	this_player.modulate = args[0]
+	print(this_player.name)
 	add_child(this_player)
 	
 
