@@ -17,7 +17,11 @@ _global_script_class_icons={
 
 config/name="client"
 run/main_scene="res://client.tscn"
-config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1000
+window/size/height=300
 
 [input]
 
@@ -35,4 +39,3 @@ move_right={
 [rendering]
 
 environment/default_clear_color=Color( 1, 0.501961, 0.992157, 1 )
-environment/default_environment="res://default_env.tres"

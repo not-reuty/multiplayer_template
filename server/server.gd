@@ -33,14 +33,17 @@ func _ready():
 	
 func player_connected(id):
 	print('player ' + str(id) + ' connected')
-	var client = load("res://remote_client.tscn").instance()
-	client.set_name(str(id))
+	var player = load("res://player.tscn").instance()
+	player.set_name(str(id))
 	var new_player_color = Color(1,0,0,1)
 	var new_player_position = Vector2(100,100)
 	
-	add_child(client)
+	add_child(player)
 	
-	client.initialise(new_player_color, new_player_position)
+	player.initialise(new_player_color, new_player_position)
+	
+	rpc_id(id, "initialise", [new_player_color, new_player_position])
+	print('rpc call sent')
 	
 	
 func player_disconnected(id):
@@ -59,12 +62,18 @@ func _on_tickrate_value_changed(value):
 	Engine.iterations_per_second = value
 
 remote func receive_data(id, data):
-	print(str(id) + ' ' + str(data))
 	var client = get_node(str(id))
-	client.move(data[0])
+	client.apply_input(data)
 
 # using Godot's built in physics process as a tickrate
 func _physics_process(delta):
 	tick_count += 1
-	var state = delta
-	rpc("sync", tick_count)
+	var state = {'tick': tick_count}
+	
+	var player_states = {}
+	var children = $players.get_children()
+	for child in children:
+		player_states[child.name] = {'position' : child.position}
+	state['players'] = player_states
+	
+	rpc_unreliable("sync", state)

@@ -19,6 +19,11 @@ config/name="server"
 run/main_scene="res://server.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=1000
+window/size/height=300
+
 [physics]
 
 common/physics_fps=40
